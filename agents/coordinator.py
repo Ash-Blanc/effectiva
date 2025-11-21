@@ -22,12 +22,12 @@ from config.settings import (
 from memory.memory_manager import get_memory_tools_for_context
 
 
-def create_coordinator_agent() -> Agent:
+def create_coordinator_agent() -> Team:
     """
     Create the Coordinator Agent that manages the multi-agent team.
     
     Returns:
-        Agno Agent instance configured as coordinator with team
+        Agno Team instance configured as coordinator
     """
     # Create specialist agents
     study_agent = create_study_agent().get_agent()
@@ -103,16 +103,13 @@ def create_coordinator_agent() -> Agent:
     memory_tools = get_memory_tools_for_context("coordinator")
     
     # Create the coordinator as a team leader
-    coordinator = Agent(
+    coordinator = Team(
         name="Effectiva Coordinator",
         role="Multi-agent coordinator and router",
-        model=Gemini(id=DEFAULT_MODEL, api_key=GOOGLE_API_KEY),
-        team=[study_agent, work_agent, life_agent, scheduling_agent],
+        model=Gemini(id=DEFAULT_MODEL, api_key=GOOGLE_API_KEY, temperature=MODEL_TEMPERATURE),
+        members=[study_agent, work_agent, life_agent, scheduling_agent],
         tools=context_tools + [memory_tools],
         instructions=coordinator_instructions,
-        markdown=AGENT_CONFIG["markdown"],
-        show_tool_calls=AGENT_CONFIG["show_tool_calls"],
-        temperature=MODEL_TEMPERATURE
     )
     
     return coordinator

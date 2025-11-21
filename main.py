@@ -1,20 +1,14 @@
 """Main entry point for Effectiva AI Agent System."""
-from agno.ui import AgentUI
+from agno.os import AgentOS
 from agents.coordinator import create_coordinator_agent
 from config.settings import UI_CONFIG
 
 # Create the coordinator agent with the full team
 agent = create_coordinator_agent()
 
-# AgentUI setup
-app = AgentUI(
-    agent=agent,
-    title=UI_CONFIG["title"],
-    theme=UI_CONFIG["theme"],
-    show_logs=UI_CONFIG["show_logs"],
-    markdown=UI_CONFIG["markdown"],
-    port=UI_CONFIG["port"]
-)
+# AgentOS setup
+agent_os = AgentOS(teams=[agent])
+app = agent_os.get_app()
 
 # TODO: WhatsApp integration can be added later
 # from integrations.whatsapp import router as whatsapp_router

@@ -51,12 +51,10 @@ class BaseAgent:
         self.agent = Agent(
             name=name,
             role=role,
-            model=Gemini(id=DEFAULT_MODEL, api_key=GOOGLE_API_KEY),
+            model=Gemini(id=DEFAULT_MODEL, api_key=GOOGLE_API_KEY, temperature=MODEL_TEMPERATURE),
             tools=agent_tools,
             instructions=instructions,
             markdown=AGENT_CONFIG["markdown"],
-            show_tool_calls=AGENT_CONFIG["show_tool_calls"],
-            temperature=MODEL_TEMPERATURE
         )
     
     def run(self, message: str, **kwargs):
