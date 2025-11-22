@@ -27,7 +27,7 @@ NAMESPACES = {
 
 # LLM Configuration
 DEFAULT_MODEL_PROVIDER = "google"
-DEFAULT_MODEL = "gemini-2.0-flash-exp"
+DEFAULT_MODEL = "gemini-2.5-pro"
 MODEL_TEMPERATURE = 0.7
 MAX_TOKENS = 2048
 
@@ -44,7 +44,7 @@ UI_CONFIG = {
     "theme": "dark",
     "show_logs": True,
     "markdown": True,
-    "port": int(os.getenv("PORT", "3000"))
+    "port": int(os.getenv("PORT", "3001"))
 }
 
 # Context Modes

@@ -56,6 +56,9 @@ class BaseAgent:
             instructions=instructions,
             markdown=AGENT_CONFIG["markdown"],
         )
+        
+        # Manually set agent_id as it's not a constructor argument but needed for UI
+        self.agent.agent_id = name.lower().replace(" ", "_")
     
     def run(self, message: str, **kwargs):
         """

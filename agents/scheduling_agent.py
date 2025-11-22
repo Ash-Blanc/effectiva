@@ -9,6 +9,8 @@ from tools.time_management import (
     calculate_time_needed, prioritize_tasks_by_deadline,
     suggest_break_schedule
 )
+from tools.bca_crisis_tools import plan_bca_catchup
+from tools.bca_day_planner import plan_bca_day, handle_bca_day
 from textwrap import dedent
 
 
@@ -40,6 +42,9 @@ def create_scheduling_agent() -> BaseAgent:
         - Watch for overcommitment and warn about burnout risks
         - Use time management best practices (Pomodoro, time boxing, etc.)
         - Remember typical schedules and patterns
+        - In crisis situations, focus first on short, protective blocks that
+          restore control (e.g., 60–90 minute catch-up blocks) using the
+          dedicated crisis planning tool.
         
         **Available Tools:**
         - Complete calendar management
@@ -71,7 +76,10 @@ def create_scheduling_agent() -> BaseAgent:
         suggest_study_schedule,
         calculate_time_needed,
         prioritize_tasks_by_deadline,
-        suggest_break_schedule
+        suggest_break_schedule,
+        plan_bca_catchup,
+        plan_bca_day,
+        handle_bca_day,
     ]
     
     return BaseAgent(

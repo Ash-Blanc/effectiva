@@ -63,9 +63,17 @@ cp .env.example .env
 # Edit .env and add your GOOGLE_API_KEY
 ```
 
-5. **Run Effectiva**:
+5. **Start the Backend**:
 ```bash
 python main.py
+```
+
+6. **Start the AgentUI (Frontend)**:
+Open a new terminal window and run:
+```bash
+cd ui
+pnpm install  # Install dependencies
+pnpm dev      # Start the UI server
 ```
 
 The AgentUI will start on `http://localhost:3000` by default.

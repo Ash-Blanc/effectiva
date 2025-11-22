@@ -11,4 +11,5 @@ dependencies = [
     "google-genai",
     "fastapi",
     "uvicorn",
+    "python-toon>=0.1.0",
 ]

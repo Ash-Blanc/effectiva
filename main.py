@@ -7,7 +7,11 @@ from config.settings import UI_CONFIG
 agent = create_coordinator_agent()
 
 # AgentOS setup
-agent_os = AgentOS(teams=[agent])
+# We pass both the team (for coordination) and individual agents (for direct access/UI)
+agent_os = AgentOS(
+    teams=[agent],
+    agents=agent.members if hasattr(agent, "members") else []
+)
 app = agent_os.get_app()
 
 # TODO: WhatsApp integration can be added later

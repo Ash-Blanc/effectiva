@@ -20,6 +20,10 @@ from config.settings import (
     GOOGLE_API_KEY
 )
 from memory.memory_manager import get_memory_tools_for_context
+from dspy_programs.intent_classifier import classify_intent
+from integrations.whatsapp import log_whatsapp_message
+from tools.bca_crisis_tools import handle_bca_crisis
+from tools.bca_day_planner import handle_bca_day
 
 
 def create_coordinator_agent() -> Team:
@@ -50,6 +54,17 @@ def create_coordinator_agent() -> Team:
         2. **Work Agent** - Manages job schedules, career tasks, work commitments
         3. **Life Agent** - Handles personal tasks, wellness, habits, chores
         4. **Scheduling Agent** - Manages time across all domains, finds conflicts
+
+        You have extra intelligence for **student crises**, especially BCA students
+        who are behind on classes, labs, and assignments. When a message sounds
+        like a crisis ("I am 5 days behind", "I missed many classes", "I feel
+        overwhelmed"), you should:
+        - First, use the intent classifier tool to understand if this is a
+          `bca_crisis` or exam/assignment related request.
+        - If it is a crisis, call the `handle_bca_crisis` tool with the
+          user's message (and location when known: home / college).
+        - Use the returned micro-plan as the basis of your response, and
+          explain it in simple, encouraging language.
         
         **How to Delegate:**
         - For **study/academic** questions → delegate to Study Agent
@@ -84,6 +99,8 @@ def create_coordinator_agent() -> Team:
         - Always consider the current context mode when routing requests
         - Remember user's patterns and preferences
         - Watch for signs of overwhelm and suggest balance
+        - In clear crisis situations, prioritize short, realistic next steps
+          over perfect long-term plans.
         - Celebrate progress and completed tasks
         - Be proactive in suggesting helpful actions
         
@@ -96,19 +113,27 @@ def create_coordinator_agent() -> Team:
         switch_context,
         get_current_context,
         get_context_suggestions,
-        view_context_history
+        view_context_history,
     ]
-    
+
+    # DSPy + WhatsApp helper tools (callable by the coordinator LLM)
+    intelligence_tools = [
+        classify_intent,
+        log_whatsapp_message,
+        handle_bca_crisis,
+        handle_bca_day,
+    ]
+
     # Get memory tools for coordinator context
     memory_tools = get_memory_tools_for_context("coordinator")
-    
+
     # Create the coordinator as a team leader
     coordinator = Team(
         name="Effectiva Coordinator",
         role="Multi-agent coordinator and router",
         model=Gemini(id=DEFAULT_MODEL, api_key=GOOGLE_API_KEY, temperature=MODEL_TEMPERATURE),
         members=[study_agent, work_agent, life_agent, scheduling_agent],
-        tools=context_tools + [memory_tools],
+        tools=context_tools + intelligence_tools + [memory_tools],
         instructions=coordinator_instructions,
     )
     

@@ -6,6 +6,8 @@ from tools.task_tools import (
 )
 from tools.calendar_tools import add_event, get_events, find_free_slots
 from tools.time_management import suggest_study_schedule, create_time_block
+from tools.bca_crisis_tools import plan_bca_catchup
+from tools.bca_day_planner import handle_bca_day
 from textwrap import dedent
 
 
@@ -34,6 +36,10 @@ def create_study_agent() -> BaseAgent:
         - Encourage healthy study habits (no all-nighters!)
         - Use the Pomodoro technique (50 min focus + 15 min break) by default
         - Remember the student's courses, study preferences, and past challenges
+        - In crisis situations (5+ days behind, many labs/assignments missed),
+          start with tiny, low-resistance actions (message classmates, list
+          assignments, understand what was missed) and use the crisis tools
+          when helpful.
         - Celebrate completed tasks and academic wins
         
         **Available Tools:**
@@ -63,7 +69,9 @@ def create_study_agent() -> BaseAgent:
         get_events,
         find_free_slots,
         suggest_study_schedule,
-        create_time_block
+        create_time_block,
+        plan_bca_catchup,
+        handle_bca_day,
     ]
     
     return BaseAgent(
