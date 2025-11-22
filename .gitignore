@@ -39,3 +39,6 @@ env/
 # Project specific
 inspect_agno.py
 effectiva_memory.db
+
+# Documentation
+*.pdf
