@@ -34,6 +34,7 @@ Effectiva is an intelligent AI agent system designed specifically for college st
 
 ### Prerequisites
 - Python 3.14+ (Python 3.10+ should also work)
+- uv (recommended)
 - Google Gemini API key ([Get one here](https://aistudio.google.com/app/apikey))
 
 ### Installation
