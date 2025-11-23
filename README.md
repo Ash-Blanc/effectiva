@@ -66,6 +66,8 @@ cp .env.example .env
 
 5. **Start the Backend**:
 ```bash
+uv run main.py  # if using uv
+# or
 python main.py
 ```
 
