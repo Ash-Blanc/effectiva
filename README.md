@@ -38,9 +38,9 @@ Effectiva is an intelligent AI agent system designed specifically for college st
 
 ### Installation
 
-1. **Clone or navigate to the project**:
+1. **Clone & navigate to the project**:
 ```bash
-cd /home/ash_blanc/src/effectiva
+git clone https://github.com/Ash-Blanc/effectiva && cd effectiva
 ```
 
 2. **Activate virtual environment** (if using venv):
