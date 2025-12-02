@@ -30,9 +30,22 @@ from config.settings import (
 )
 from memory.memory_manager import get_memory_tools_for_context
 from dspy_programs.intent_classifier import classify_intent
-from integrations.whatsapp import log_whatsapp_message
 from tools.bca_crisis_tools import handle_bca_crisis
 from tools.bca_day_planner import handle_bca_day
+
+# WhatsApp integration (Optional - only if API keys available)
+whatsapp_tools = []
+try:
+    from integrations.whatsapp import log_whatsapp_message
+    # Only add if environment variables are set
+    import os
+    if os.getenv('WHATSAPP_ACCESS_TOKEN') and os.getenv('WHATSAPP_PHONE_NUMBER_ID'):
+        whatsapp_tools = [log_whatsapp_message]
+        print("✅ WhatsApp integration enabled in coordinator")
+    else:
+        print("⚠️ WhatsApp integration disabled in coordinator (API keys not configured)")
+except ImportError:
+    print("⚠️ WhatsApp integration not available in coordinator")
 
 
 def create_coordinator_agent() -> Team:
@@ -73,10 +86,9 @@ def create_coordinator_agent() -> Team:
     # Intelligence tools (callable by the coordinator LLM)
     intelligence_tools = [
         classify_intent,
-        log_whatsapp_message,
         handle_bca_crisis,
         handle_bca_day,
-    ]
+    ] + whatsapp_tools  # Add WhatsApp tools only if available
 
     # Get memory tools for coordinator context
     memory_tools = get_memory_tools_for_context("coordinator")
