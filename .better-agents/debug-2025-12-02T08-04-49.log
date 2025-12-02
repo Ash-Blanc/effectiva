@@ -1,0 +1,12 @@
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662689306,"pid":16426,"hostname":"wannabemrblanc","step":"timer-end","label":"directory-creation","duration":30}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662689307,"pid":16426,"hostname":"wannabemrblanc","step":"timer-start","label":"project-structure"}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662689380,"pid":16426,"hostname":"wannabemrblanc","step":"timer-end","label":"project-structure","duration":73}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662689380,"pid":16426,"hostname":"wannabemrblanc","step":"timer-start","label":"framework-setup"}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691111,"pid":16426,"hostname":"wannabemrblanc","step":"timer-end","label":"framework-setup","duration":1731}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691112,"pid":16426,"hostname":"wannabemrblanc","step":"timer-start","label":"mcp-config"}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691115,"pid":16426,"hostname":"wannabemrblanc","step":"timer-end","label":"mcp-config","duration":3}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691116,"pid":16426,"hostname":"wannabemrblanc","step":"timer-start","label":"agents-guide"}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691122,"pid":16426,"hostname":"wannabemrblanc","step":"timer-end","label":"agents-guide","duration":6}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691125,"pid":16426,"hostname":"wannabemrblanc","step":"user-success","message":"Your agent project is ready!","type":"success"}
+{"level":"debug","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691126,"pid":16426,"hostname":"wannabemrblanc","step":"user-info","message":"Project location: /home/ash_blanc/src/effectiva","type":"info"}
+{"level":"info","timestamp":"2025-12-02T08:04:49.302Z","time":1764662691126,"pid":16426,"hostname":"wannabemrblanc","step":"init-completed","projectPath":"/home/ash_blanc/src/effectiva","success":true}

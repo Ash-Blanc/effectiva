@@ -1,0 +1,24 @@
+{
+  "prompts": [
+    {
+      "name": "coordinator",
+      "path": "file:prompts/coordinator.prompt.yaml"
+    },
+    {
+      "name": "study_agent",
+      "path": "file:prompts/study_agent.prompt.yaml"
+    },
+    {
+      "name": "work_agent",
+      "path": "file:prompts/work_agent.prompt.yaml"
+    },
+    {
+      "name": "life_agent",
+      "path": "file:prompts/life_agent.prompt.yaml"
+    },
+    {
+      "name": "scheduling_agent",
+      "path": "file:prompts/scheduling_agent.prompt.yaml"
+    }
+  ]
+}

@@ -1,40 +1,19 @@
-"""WhatsApp-style integration tools for Effectiva.
+"""WhatsApp integration using Agno's official WhatsApp toolkit.
 
-These tools do *not* connect directly to WhatsApp yet.
-Instead, they provide a thin abstraction for logging and
-retrieving WhatsApp-like messages in Memori so that the
-agent system can reason about conversations with key
-contacts, crises, and commitments.
-
-A future step can connect actual WhatsApp webhooks or
-Twilio messaging to these helpers.
+This provides full WhatsApp Business API integration for Effectiva,
+enabling the agent system to send and receive messages via WhatsApp.
 """
-from __future__ import annotations
+from agno.tools.whatsapp import WhatsAppTools
+from config.settings import get_whatsapp_config
 
-from typing import Literal, Dict, Any
+# Initialize WhatsApp tools with configuration
+whatsapp_tools = WhatsAppTools(
+    access_token=get_whatsapp_config()["access_token"],
+    phone_number_id=get_whatsapp_config()["phone_number_id"],
+)
 
-from memory.memory_manager import log_event
-
-
-def log_whatsapp_message(
-    contact: str,
-    direction: Literal["inbound", "outbound"],
-    content: str,
-    context: str = "coordinator",
-) -> str:
-    """Log a WhatsApp-style message in Memori.
-
-    Args:
-        contact: Human-friendly name or identifier (e.g., "Mom", "CS Class Group").
-        direction: "inbound" for messages from the contact, "outbound" for
-            messages suggested or drafted by Effectiva.
-        content: The message text.
-        context: Memory context; defaults to "coordinator".
-    """
-
-    payload: Dict[str, Any] = {
-        "contact": contact,
-        "direction": direction,
-        "content": content,
-    }
-    return log_event(context=context, event_type="whatsapp_message", payload=payload)
+# Export the tools for use in agents
+send_message = whatsapp_tools.send_message
+send_template_message = whatsapp_tools.send_template_message
+mark_message_as_read = whatsapp_tools.mark_message_as_read
+get_message_status = whatsapp_tools.get_message_status

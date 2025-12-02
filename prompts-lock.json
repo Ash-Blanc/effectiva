@@ -1,0 +1,30 @@
+{
+  "lockfileVersion": 1,
+  "prompts": {
+    "coordinator": {
+      "version": 0,
+      "versionId": "local",
+      "materialized": "prompts/coordinator.prompt.yaml"
+    },
+    "study_agent": {
+      "version": 0,
+      "versionId": "local",
+      "materialized": "prompts/study_agent.prompt.yaml"
+    },
+    "work_agent": {
+      "version": 0,
+      "versionId": "local",
+      "materialized": "prompts/work_agent.prompt.yaml"
+    },
+    "life_agent": {
+      "version": 0,
+      "versionId": "local",
+      "materialized": "prompts/life_agent.prompt.yaml"
+    },
+    "scheduling_agent": {
+      "version": 0,
+      "versionId": "local",
+      "materialized": "prompts/scheduling_agent.prompt.yaml"
+    }
+  }
+}

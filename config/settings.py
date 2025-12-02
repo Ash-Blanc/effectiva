@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).parent.parent
 # API Keys - Should be set as environment variables
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")  # Optional
+LANGWATCH_API_KEY = os.getenv("LANGWATCH_API_KEY")
 
 # Memory Configuration
 MEMORY_DB_PATH = os.getenv(
@@ -52,3 +53,25 @@ CONTEXT_MODES = ["study", "work", "life", "balanced"]
 
 # Task Priorities
 TASK_PRIORITIES = ["low", "medium", "high", "urgent"]
+
+# Social Integration Configurations
+def get_whatsapp_config():
+    """Get WhatsApp Business API configuration."""
+    return {
+        "access_token": os.getenv("WHATSAPP_ACCESS_TOKEN"),
+        "phone_number_id": os.getenv("WHATSAPP_PHONE_NUMBER_ID"),
+    }
+
+def get_discord_config():
+    """Get Discord bot configuration."""
+    return {
+        "bot_token": os.getenv("DISCORD_BOT_TOKEN"),
+        "default_channel_id": os.getenv("DISCORD_DEFAULT_CHANNEL_ID"),
+    }
+
+def get_linkedin_config():
+    """Get LinkedIn API configuration."""
+    return {
+        "access_token": os.getenv("LINKEDIN_ACCESS_TOKEN"),
+        "person_urn": os.getenv("LINKEDIN_PERSON_URN"),
+    }

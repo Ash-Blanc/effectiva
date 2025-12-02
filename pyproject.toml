@@ -9,7 +9,17 @@ dependencies = [
     "dspy>=3.0.4",
     "memorisdk>=2.3.2",
     "google-genai",
+    "google-api-python-client",
+    "google-auth-httplib2",
+    "google-auth-oauthlib",
     "fastapi",
     "uvicorn",
     "python-toon>=0.1.0",
+    "langwatch>=0.7.1",
+    "langwatch-scenario>=0.7.14",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1",
 ]

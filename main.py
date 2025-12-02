@@ -1,7 +1,12 @@
 """Main entry point for Effectiva AI Agent System."""
+import langwatch
+
 from agno.os import AgentOS
 from agents.coordinator import create_coordinator_agent
-from config.settings import UI_CONFIG
+from config.settings import UI_CONFIG, LANGWATCH_API_KEY
+
+# Initialize LangWatch
+langwatch.init(api_key=LANGWATCH_API_KEY)
 
 # Create the coordinator agent with the full team
 agent = create_coordinator_agent()
@@ -14,9 +19,27 @@ agent_os = AgentOS(
 )
 app = agent_os.get_app()
 
-# TODO: WhatsApp integration can be added later
-# from integrations.whatsapp import router as whatsapp_router
-# app.include_router(whatsapp_router)
+# Core Integrations (Simplified based on student usage patterns)
+from integrations.whatsapp import send_message as whatsapp_send, send_template_message as whatsapp_template
+from integrations.google_calendar import (
+    list_calendars, get_events as google_get_events, create_event as google_create_event,
+    find_free_slots as google_find_free_slots
+)
+
+# Add essential productivity tools to the coordinator team
+productivity_tools = [
+    # WhatsApp (most used by students)
+    whatsapp_send,
+    whatsapp_template,
+    # Google Calendar (essential for time management)
+    list_calendars,
+    google_get_events,
+    google_create_event,
+    google_find_free_slots,
+]
+
+# Extend the team's tools with social and productivity integrations
+agent.tools.extend(productivity_tools)
 
 if __name__ == "__main__":
     import uvicorn

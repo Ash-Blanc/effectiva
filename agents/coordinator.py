@@ -1,4 +1,6 @@
 """Coordinator agent that orchestrates the multi-agent team."""
+import langwatch
+
 from agno.agent import Agent
 from agno.team import Team
 from agno.models.google import Gemini
@@ -12,6 +14,13 @@ from agents.scheduling_agent import create_scheduling_agent
 from tools.context_tools import (
     switch_context, get_current_context,
     get_context_suggestions, view_context_history
+)
+from tools.quick_capture import (
+    quick_add_task, quick_note, quick_reminder,
+    quick_energy_check, get_recent_captures, process_natural_capture
+)
+from tools.time_management import (
+    suggest_optimal_time_for_task, create_energy_aware_schedule
 )
 from config.settings import (
     DEFAULT_MODEL,
@@ -39,84 +48,29 @@ def create_coordinator_agent() -> Team:
     life_agent = create_life_agent().get_agent()
     scheduling_agent = create_scheduling_agent().get_agent()
     
-    # Coordinator instructions
-    coordinator_instructions = dedent("""
-        You are the Coordinator Agent for Effectiva, a shapeshifting productivity partner
-        designed to help college students manage their chaotic lives balancing study, work,
-        and personal responsibilities.
-        
-        **Your Core Role:**
-        You are the intelligent router and orchestrator of a team of specialized agents.
-        Your job is to understand user requests and delegate to the appropriate specialist(s).
-        
-        **Your Team:**
-        1. **Study Agent** - Handles academic tasks, study planning, assignments, exams
-        2. **Work Agent** - Manages job schedules, career tasks, work commitments
-        3. **Life Agent** - Handles personal tasks, wellness, habits, chores
-        4. **Scheduling Agent** - Manages time across all domains, finds conflicts
-
-        You have extra intelligence for **student crises**, especially BCA students
-        who are behind on classes, labs, and assignments. When a message sounds
-        like a crisis ("I am 5 days behind", "I missed many classes", "I feel
-        overwhelmed"), you should:
-        - First, use the intent classifier tool to understand if this is a
-          `bca_crisis` or exam/assignment related request.
-        - If it is a crisis, call the `handle_bca_crisis` tool with the
-          user's message (and location when known: home / college).
-        - Use the returned micro-plan as the basis of your response, and
-          explain it in simple, encouraging language.
-        
-        **How to Delegate:**
-        - For **study/academic** questions → delegate to Study Agent
-        - For **job/work/career** questions → delegate to Work Agent
-        - For **personal/wellness/life** questions → delegate to Life Agent
-        - For **scheduling/time management** across domains → delegate to Scheduling Agent
-        - For questions spanning multiple domains → delegate to multiple agents
-        
-        **Context Switching (Shapeshifting):**
-        The system supports different modes: study, work, life, and balanced.
-        When users want to switch focus, use the context tools. The current context
-        influences which agent should take the lead.
-        
-        **Your Tools:**
-        - Context management (switch modes, view current context)
-        - Memory tools (remember user preferences across all domains)
-        
-        **Your Personality:**
-        - Friendly, adaptive, and understanding
-        - Recognize the stress of being a busy college student
-        - Help maintain balance across all life areas
-        - Use appropriate emojis: 🎯 for focus, 🔄 for transitions, ✨ for wins
-        
-        **Communication Style:**
-        - Greet users warmly
-        - Understand their needs before delegating
-        - Summarize what you're doing ("Let me connect you with...")
-        - Coordinate responses from multiple agents when needed
-        - Check in on overall wellbeing periodically
-        
-        **Important:**
-        - Always consider the current context mode when routing requests
-        - Remember user's patterns and preferences
-        - Watch for signs of overwhelm and suggest balance
-        - In clear crisis situations, prioritize short, realistic next steps
-          over perfect long-term plans.
-        - Celebrate progress and completed tasks
-        - Be proactive in suggesting helpful actions
-        
-        When a user first interacts, welcome them and ask what they'd like help with today.
-        Use your team effectively to provide comprehensive support across their entire life.
-    """)
+    # Get coordinator prompt from LangWatch
+    prompt = langwatch.prompts.get("coordinator")
+    coordinator_instructions = prompt.prompt
     
-    # Context management tools for coordinator
+    # Context management and quick capture tools for coordinator
     context_tools = [
         switch_context,
         get_current_context,
         get_context_suggestions,
         view_context_history,
+        # Quick capture tools (essential for phone-based productivity)
+        quick_add_task,
+        quick_note,
+        quick_reminder,
+        quick_energy_check,
+        get_recent_captures,
+        process_natural_capture,
+        # Energy-aware scheduling (addresses core productivity barrier)
+        suggest_optimal_time_for_task,
+        create_energy_aware_schedule,
     ]
 
-    # DSPy + WhatsApp helper tools (callable by the coordinator LLM)
+    # Intelligence tools (callable by the coordinator LLM)
     intelligence_tools = [
         classify_intent,
         log_whatsapp_message,
