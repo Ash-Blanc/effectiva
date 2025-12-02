@@ -31,7 +31,8 @@ Effectiva is an intelligent AI agent system designed specifically for college st
 - **Context Management**: Switch modes and get context-specific suggestions
 - **Quick Capture**: Phone-based task, note, and energy check capture
 - **Energy-Aware Scheduling**: Intelligent scheduling based on energy levels
-- **WhatsApp Integration**: Essential messaging for student coordination
+- **Discord Integration**: Primary social platform for study communities and group coordination
+- **WhatsApp Integration**: Optional messaging for personal coordination (when API available)
 - **Advanced Study Techniques**: Spaced repetition, active recall, personalized learning
 
 ## 🚀 Quick Start
@@ -291,8 +292,9 @@ effectiva/
 - **[shadcn/ui](https://ui.shadcn.com/)**: Component library
 
 **Integrations:**
-- **WhatsApp Business API**: Essential messaging integration
+- **Discord API**: Primary social platform for study communities and group coordination
 - **Google Calendar API**: Core calendar functionality
+- **WhatsApp Business API**: Optional messaging integration (when API available)
 - **SQLite**: Local database for memory and state
 
 **Development & Testing:**
@@ -382,6 +384,29 @@ For Google Calendar and Tasks integration:
 5. **First run**: The system will automatically authenticate and create `google_token.json`
 
 **Note**: The first time you use Google integrations, you'll need to complete OAuth authentication in your browser.
+
+### Discord Bot Setup
+
+For Discord integration and study community features:
+
+1. **Create a Discord Application**: Go to [Discord Developer Portal](https://discord.com/developers/applications)
+2. **Create a Bot**: In your application, go to "Bot" section and create a new bot
+3. **Copy Bot Token**: Save the bot token for your `.env` file
+4. **Invite Bot to Server**: Generate an invite URL with appropriate permissions:
+   - `bot` permission
+   - `Send Messages` permission
+   - `Read Messages` permission
+   - `Create Threads` permission (optional)
+5. **Get Channel ID**: Right-click on your desired channel → "Copy ID" (requires Developer Mode enabled)
+6. **Set Environment Variables**: Add `DISCORD_BOT_TOKEN` and `DISCORD_DEFAULT_CHANNEL_ID` to your `.env`
+
+**Bot Permissions Needed:**
+- Send Messages
+- Read Messages
+- Create Threads (for study discussions)
+- Add Reactions (for engagement)
+
+**Note**: The bot will work in any server it's invited to, but will use the default channel for general communications.
 
 ### Model Configuration
 
