@@ -6,6 +6,8 @@
   :root {
     --color-border-default: 255, 255, 255, 0.2;
     --scrollbar-width: 0.1rem;
+    --gradient-start: 240deg, 249%, 34%;
+    --gradient-end: 240deg, 249%, 17%;
   }
 
   body {
@@ -28,4 +30,39 @@
 ::-webkit-scrollbar-track {
   background-color: transparent;
   border-radius: 9999px;
+}
+
+@layer components {
+  .chat-gradient {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-start)) 0%,
+      hsl(var(--gradient-end)) 100%
+    );
+  }
+  
+  .message-bubble {
+    @apply relative rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 hover:shadow-xl;
+  }
+  
+  .agent-message {
+    @apply message-bubble bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100;
+  }
+  
+  .user-message {
+    @apply message-bubble bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100 ml-auto max-w-[80%];
+  }
+  
+  .chat-input-container {
+    @apply relative bg-white/80 backdrop-blur-sm border-t border-gray-200/50 shadow-lg;
+  }
+  
+  .typing-indicator {
+    @apply flex items-center gap-1 text-gray-500;
+  }
+  
+  .typing-dot {
+    @apply w-2 h-2 bg-gray-400 rounded-full animate-bounce;
+    animation-delay: calc(var(--delay) * 0.1s);
+  }
 }
