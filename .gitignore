@@ -1,5 +1,4 @@
 # Environment variables
-.env
 
 # Dependencies
 node_modules/
@@ -22,3 +21,4 @@ Thumbs.db
 dist/
 build/
 *.egg-info/
+config.bat
