@@ -311,7 +311,8 @@ effectiva/
 Effectiva integrates with major social platforms and productivity tools:
 
 #### Social Platforms
-- **WhatsApp Business API**: Send/receive messages, templates, and media
+- **Discord**: Primary social platform for study communities and group coordination
+- **WhatsApp Business API**: Optional messaging integration (requires API access)
 
 #### Google Workspace
 - **Google Calendar**: Full calendar management, event creation, free/busy times
@@ -362,12 +363,10 @@ See `.env.example` for all available options:
 
 - `GOOGLE_API_KEY`: **Required** - Your Google API key for Gemini
 - `LANGWATCH_API_KEY`: **Required** - Your LangWatch API key
+- `DISCORD_BOT_TOKEN`: **Required** - Discord bot token for community features
+- `DISCORD_DEFAULT_CHANNEL_ID`: **Required** - Default Discord channel ID
 - `WHATSAPP_ACCESS_TOKEN`: Optional - WhatsApp Business API access token
 - `WHATSAPP_PHONE_NUMBER_ID`: Optional - WhatsApp Business API phone number ID
-- `DISCORD_BOT_TOKEN`: Optional - Discord bot token
-- `DISCORD_DEFAULT_CHANNEL_ID`: Optional - Default Discord channel ID
-- `LINKEDIN_ACCESS_TOKEN`: Optional - LinkedIn API access token
-- `LINKEDIN_PERSON_URN`: Optional - Your LinkedIn person URN
 - `MEMORY_DB_PATH`: Optional - Custom database location
 - `PORT`: Optional - Custom UI port (default: 3000)
 - `DEBUG_MODE`: Optional - Enable debug logging

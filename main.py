@@ -19,24 +19,40 @@ agent_os = AgentOS(
 )
 app = agent_os.get_app()
 
-# Core Integrations (Simplified based on student usage patterns)
-from integrations.whatsapp import send_message as whatsapp_send, send_template_message as whatsapp_template
+# Core Integrations (Conditional based on available API keys)
 from integrations.google_calendar import (
     list_calendars, get_events as google_get_events, create_event as google_create_event,
     find_free_slots as google_find_free_slots
 )
 
+# Discord Integration (Primary social platform focus)
+from integrations.discord import send_message as discord_send, get_channel_messages as discord_get_messages
+
+# WhatsApp Integration (Optional - only if API keys available)
+whatsapp_tools = []
+try:
+    from integrations.whatsapp import send_message as whatsapp_send, send_template_message as whatsapp_template
+    # Only add if environment variables are set
+    import os
+    if os.getenv('WHATSAPP_ACCESS_TOKEN') and os.getenv('WHATSAPP_PHONE_NUMBER_ID'):
+        whatsapp_tools = [whatsapp_send, whatsapp_template]
+        print("✅ WhatsApp integration enabled")
+    else:
+        print("⚠️ WhatsApp integration disabled (API keys not configured)")
+except ImportError:
+    print("⚠️ WhatsApp integration not available")
+
 # Add essential productivity tools to the coordinator team
 productivity_tools = [
-    # WhatsApp (most used by students)
-    whatsapp_send,
-    whatsapp_template,
+    # Discord (primary social platform for study communities)
+    discord_send,
+    discord_get_messages,
     # Google Calendar (essential for time management)
     list_calendars,
     google_get_events,
     google_create_event,
     google_find_free_slots,
-]
+] + whatsapp_tools  # Add WhatsApp only if available
 
 # Extend the team's tools with social and productivity integrations
 agent.tools.extend(productivity_tools)
