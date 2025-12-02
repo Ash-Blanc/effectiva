@@ -8,13 +8,13 @@ from config.settings import get_discord_config
 
 # Initialize Discord tools with configuration
 discord_tools = DiscordTools(
-    bot_token=get_discord_config()["bot_token"],
-    default_channel_id=get_discord_config()["default_channel_id"],
+    bot_token=get_discord_config()["bot_token"]
 )
 
 # Export the tools for use in agents
+# Available methods in DiscordTools:
 send_message = discord_tools.send_message
 get_channel_messages = discord_tools.get_channel_messages
-create_thread = discord_tools.create_thread
-add_reaction = discord_tools.add_reaction
-get_user_info = discord_tools.get_user_info
+get_channel_info = discord_tools.get_channel_info
+list_channels = discord_tools.list_channels
+delete_message = discord_tools.delete_message

@@ -5,8 +5,14 @@ from agno.os import AgentOS
 from agents.coordinator import create_coordinator_agent
 from config.settings import UI_CONFIG, LANGWATCH_API_KEY
 
-# Initialize LangWatch
-langwatch.init(api_key=LANGWATCH_API_KEY)
+# LangWatch initialization (if needed)
+# Note: LangWatch may not require explicit initialization in newer versions
+try:
+    if hasattr(langwatch, 'init'):
+        langwatch.init(api_key=LANGWATCH_API_KEY)
+except Exception as e:
+    print(f"⚠️ LangWatch initialization skipped: {e}")
+    # LangWatch prompts can still be accessed without explicit init
 
 # Create the coordinator agent with the full team
 agent = create_coordinator_agent()
@@ -28,19 +34,18 @@ from integrations.google_calendar import (
 # Discord Integration (Primary social platform focus)
 from integrations.discord import send_message as discord_send, get_channel_messages as discord_get_messages
 
-# WhatsApp Integration (Optional - only if API keys available)
+# WhatsApp Integration (Optional - only if API keys available and tools initialized)
 whatsapp_tools = []
 try:
     from integrations.whatsapp import send_message as whatsapp_send, send_template_message as whatsapp_template
-    # Only add if environment variables are set
-    import os
-    if os.getenv('WHATSAPP_ACCESS_TOKEN') and os.getenv('WHATSAPP_PHONE_NUMBER_ID'):
+    # Only add if the tools were successfully initialized (not None)
+    if whatsapp_send is not None and whatsapp_template is not None:
         whatsapp_tools = [whatsapp_send, whatsapp_template]
         print("✅ WhatsApp integration enabled")
     else:
-        print("⚠️ WhatsApp integration disabled (API keys not configured)")
-except ImportError:
-    print("⚠️ WhatsApp integration not available")
+        print("⚠️ WhatsApp integration disabled (tools not initialized)")
+except ImportError as e:
+    print(f"⚠️ WhatsApp integration not available: {e}")
 
 # Add essential productivity tools to the coordinator team
 productivity_tools = [

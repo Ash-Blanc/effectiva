@@ -25,9 +25,24 @@ def create_study_agent() -> BaseAgent:
     Returns:
         BaseAgent instance configured as Study Agent
     """
-    # Get study agent prompt from LangWatch
-    prompt = langwatch.prompts.get("study_agent")
-    instructions = prompt.prompt
+    # Get study agent prompt from LangWatch with fallback
+    try:
+        prompt = langwatch.prompts.get("study_agent")
+        instructions = prompt.prompt
+    except Exception as e:
+        print(f"⚠️ Failed to load study_agent prompt from LangWatch: {e}")
+        # Fallback to basic instructions
+        instructions = """
+        You are a Study Agent specialized in academic tasks and learning.
+
+        Your role is to help students with:
+        - Creating effective study plans and schedules
+        - Managing assignments and deadlines
+        - Providing study techniques and learning strategies
+        - Organizing academic tasks and priorities
+
+        Be encouraging, practical, and focused on student success.
+        """
     
     tools = [
         create_task,

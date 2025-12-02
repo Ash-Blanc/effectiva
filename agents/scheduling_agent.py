@@ -23,9 +23,24 @@ def create_scheduling_agent() -> BaseAgent:
     Returns:
         BaseAgent instance configured as Scheduling Agent
     """
-    # Get scheduling agent prompt from LangWatch
-    prompt = langwatch.prompts.get("scheduling_agent")
-    instructions = prompt.prompt
+    # Get scheduling agent prompt from LangWatch with fallback
+    try:
+        prompt = langwatch.prompts.get("scheduling_agent")
+        instructions = prompt.prompt
+    except Exception as e:
+        print(f"⚠️ Failed to load scheduling_agent prompt from LangWatch: {e}")
+        # Fallback to basic instructions
+        instructions = """
+        You are a Scheduling Agent specialized in time management and coordination.
+
+        Your role is to help students with:
+        - Cross-domain time allocation (study, work, life)
+        - Conflict resolution between commitments
+        - Optimal scheduling based on energy levels
+        - Deadline prioritization and time blocking
+
+        Be systematic, practical, and focused on efficient time use.
+        """
     
     tools = [
         add_event,

@@ -33,19 +33,18 @@ from dspy_programs.intent_classifier import classify_intent
 from tools.bca_crisis_tools import handle_bca_crisis
 from tools.bca_day_planner import handle_bca_day
 
-# WhatsApp integration (Optional - only if API keys available)
+# WhatsApp integration (Optional - only if API keys available and tools initialized)
 whatsapp_tools = []
 try:
     from integrations.whatsapp import log_whatsapp_message
-    # Only add if environment variables are set
-    import os
-    if os.getenv('WHATSAPP_ACCESS_TOKEN') and os.getenv('WHATSAPP_PHONE_NUMBER_ID'):
+    # Only add if the tool was successfully initialized (not None)
+    if log_whatsapp_message is not None:
         whatsapp_tools = [log_whatsapp_message]
         print("✅ WhatsApp integration enabled in coordinator")
     else:
-        print("⚠️ WhatsApp integration disabled in coordinator (API keys not configured)")
-except ImportError:
-    print("⚠️ WhatsApp integration not available in coordinator")
+        print("⚠️ WhatsApp integration disabled in coordinator (tools not initialized)")
+except ImportError as e:
+    print(f"⚠️ WhatsApp integration not available in coordinator: {e}")
 
 
 def create_coordinator_agent() -> Team:
@@ -61,9 +60,24 @@ def create_coordinator_agent() -> Team:
     life_agent = create_life_agent().get_agent()
     scheduling_agent = create_scheduling_agent().get_agent()
     
-    # Get coordinator prompt from LangWatch
-    prompt = langwatch.prompts.get("coordinator")
-    coordinator_instructions = prompt.prompt
+    # Get coordinator prompt from LangWatch with fallback
+    try:
+        prompt = langwatch.prompts.get("coordinator")
+        coordinator_instructions = prompt.prompt
+    except Exception as e:
+        print(f"⚠️ Failed to load coordinator prompt from LangWatch: {e}")
+        # Fallback to basic instructions
+        coordinator_instructions = """
+        You are the Coordinator Agent, the central orchestrator for Effectiva.
+
+        Your role is to:
+        - Understand student requests and route them to appropriate agents
+        - Coordinate between Study, Work, Life, and Scheduling agents
+        - Maintain context across different life domains
+        - Provide unified responses that consider all aspects of student life
+
+        Be intelligent, empathetic, and focused on holistic student support.
+        """
     
     # Context management and quick capture tools for coordinator
     context_tools = [

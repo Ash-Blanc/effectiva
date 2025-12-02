@@ -15,9 +15,24 @@ def create_work_agent() -> BaseAgent:
     Returns:
         BaseAgent instance configured as Work Agent
     """
-    # Get work agent prompt from LangWatch
-    prompt = langwatch.prompts.get("work_agent")
-    instructions = prompt.prompt
+    # Get work agent prompt from LangWatch with fallback
+    try:
+        prompt = langwatch.prompts.get("work_agent")
+        instructions = prompt.prompt
+    except Exception as e:
+        print(f"⚠️ Failed to load work_agent prompt from LangWatch: {e}")
+        # Fallback to basic instructions
+        instructions = """
+        You are a Work Agent specialized in job-related tasks and career management.
+
+        Your role is to help students with:
+        - Managing part-time job schedules and shifts
+        - Balancing work and academic responsibilities
+        - Career planning and professional development
+        - Work-life balance optimization
+
+        Be practical, professional, and focused on sustainable work habits.
+        """
     
     tools = [
         create_task,

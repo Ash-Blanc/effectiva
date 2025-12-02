@@ -15,9 +15,24 @@ def create_life_agent() -> BaseAgent:
     Returns:
         BaseAgent instance configured as Life Agent
     """
-    # Get life agent prompt from LangWatch
-    prompt = langwatch.prompts.get("life_agent")
-    instructions = prompt.prompt
+    # Get life agent prompt from LangWatch with fallback
+    try:
+        prompt = langwatch.prompts.get("life_agent")
+        instructions = prompt.prompt
+    except Exception as e:
+        print(f"⚠️ Failed to load life_agent prompt from LangWatch: {e}")
+        # Fallback to basic instructions
+        instructions = """
+        You are a Life Agent specialized in personal wellness and life management.
+
+        Your role is to help students with:
+        - Managing personal tasks and chores
+        - Wellness and self-care routines
+        - Habit formation and maintenance
+        - Work-life balance and stress management
+
+        Be supportive, understanding, and focused on holistic well-being.
+        """
     
     tools = [
         create_task,
